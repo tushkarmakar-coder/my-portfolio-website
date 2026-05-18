@@ -11,7 +11,7 @@ interface AnimatedCounterProps {
 
 export default function AnimatedCounter({ to, suffix = "", duration = 1.5 }: AnimatedCounterProps) {
   const nodeRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(nodeRef, { once: true, margin: "-100px" });
+  const isInView = useInView(nodeRef, { once: true, margin: "-20px" });
   const [count, setCount] = useState(0);
 
   useEffect(() => {

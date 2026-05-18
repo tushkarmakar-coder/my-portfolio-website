@@ -36,7 +36,7 @@ export default function About() {
             variants={staggerContainer(0.1, 0.1)}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-20px" }}
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4 lg:col-span-6"
           >
             {stats.map((stat, i) => (
@@ -68,7 +68,7 @@ export default function About() {
             variants={fadeIn("left", 0.2, 0.6)}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-20px" }}
             className="lg:col-span-6 flex flex-col gap-6 text-gray-300"
           >
             {/* Value Prop Banner */}
