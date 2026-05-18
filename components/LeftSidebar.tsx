@@ -122,7 +122,7 @@ export default function LeftSidebar() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="xl:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex justify-start items-center px-4 py-2.5 rounded-full border border-cyan-500/25 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.9)] backdrop-blur-xl max-w-[90vw] overflow-x-auto scrollbar-none"
+        className="xl:hidden fixed bottom-6 left-[5vw] right-[5vw] w-[90vw] z-[100] flex justify-start items-center px-4 py-2.5 rounded-full border border-cyan-500/25 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-x-auto scrollbar-none"
         style={{
           background: "linear-gradient(135deg, rgba(10, 15, 30, 0.95) 0%, rgba(12, 18, 38, 0.9) 100%)",
         }}
