@@ -92,27 +92,27 @@ export async function POST(req: Request) {
         Web Developer &amp; Co-Founder, BrandNest Agency
       </div>
       <div style="font-size: 8px; font-family: monospace; color: #00d4ff; text-transform: uppercase; margin-top: 6px; letter-spacing: 0.2em; opacity: 0.8;">
-        [ Secure Transmission Log Secured ]
+        [ PROJECT INQUIRY STATUS: RECEIVED ]
       </div>
     </div>
     <h1>Thank you for reaching out, ${name}!</h1>
-    <p>I have successfully received your message from my portfolio contact form. Here is a transmission log of what I received:</p>
+    <p>I have successfully received your project inquiry. Thank you for sharing your vision! Here is a summary of the details you submitted:</p>
     <div style="background-color: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 15px; margin-bottom: 25px; font-family: monospace; font-size: 13px; color: #e5e7eb; line-height: 1.6;">
       <strong>Name:</strong> ${name}<br>
       <strong>Email:</strong> ${email}<br>
       ${phone ? `<strong>Phone:</strong> ${phone}<br>` : ""}
       ${service ? `<strong>Purpose:</strong> ${service}<br>` : ""}
       ${budget ? `<strong>Budget Estimate:</strong> ${budget}<br>` : ""}
-      <strong style="display: block; margin-top: 10px;">Message:</strong>
+      <strong style="display: block; margin-top: 10px;">Message Brief:</strong>
       <span style="color: #9ca3af; display: block; margin-top: 4px; white-space: pre-wrap;">${message}</span>
     </div>
-    <p>I am currently reviewing your details and will get back to you with a comprehensive response within 24 hours.</p>
+    <p>I am currently reviewing your requirements and will get back to you with a comprehensive proposal and response within 24 hours.</p>
     <p>If your requirement is urgent, please feel free to reach out via WhatsApp/Call directly.</p>
     <div style="text-align: center; margin: 30px 0;">
       <a href="https://tushkarmakar.vercel.app" class="btn">Visit My Portfolio</a>
     </div>
     <div class="footer">
-      This is an automated transmission confirmation receipt.<br>
+      This is an automated confirmation receipt for your project records.<br>
       &copy; ${new Date().getFullYear()} Tushar Karmakar &amp; BrandNest Agency. All rights reserved.<br>
       <a href="https://brandnestagency.vercel.app" style="color: #00d4ff; text-decoration: none;">brandnestagency.vercel.app</a>
     </div>
