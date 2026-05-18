@@ -122,12 +122,12 @@ export default function LeftSidebar() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="xl:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex justify-center items-center px-3 py-2 rounded-full border border-cyan-500/25 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.9)] backdrop-blur-xl gap-1 max-w-[95vw] overflow-x-auto scrollbar-none"
+        className="xl:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex justify-start items-center px-4 py-2.5 rounded-full border border-cyan-500/25 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.9)] backdrop-blur-xl max-w-[90vw] overflow-x-auto scrollbar-none"
         style={{
           background: "linear-gradient(135deg, rgba(10, 15, 30, 0.95) 0%, rgba(12, 18, 38, 0.9) 100%)",
         }}
       >
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-2 items-center">
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
             const Icon = item.icon;
@@ -135,14 +135,15 @@ export default function LeftSidebar() {
               <button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
-                className={`p-1.5 rounded-full transition-all duration-300 flex items-center justify-center relative clickable ${
+                className={`p-2 rounded-full transition-all duration-300 flex items-center justify-center relative flex-shrink-0 clickable ${
                   isActive 
-                    ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-[0_0_15px_rgba(0,212,255,0.3)] scale-110" 
-                    : "text-gray-500 hover:text-white border border-transparent"
+                    ? "bg-cyan-500/25 text-cyan-400 border border-cyan-500/40 shadow-[0_0_15px_rgba(0,212,255,0.35)] scale-110" 
+                    : "text-slate-400 hover:text-white border border-transparent scale-100"
                 }`}
+                style={{ width: "32px", height: "32px" }}
                 title={item.label}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3.5 h-3.5 flex-shrink-0" />
                 {isActive && (
                   <motion.div
                     layoutId="mobile-active-glow"
