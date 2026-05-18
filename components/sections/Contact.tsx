@@ -9,18 +9,29 @@ import { fadeIn } from "@/lib/animations";
 
 export default function Contact() {
   const { phone, email, linkedin, portfolio, agency } = portfolioData.personal;
-  const [formState, setFormState] = useState({ name: "", email: "", phone: "", reason: "", currency: "INR", budgetValue: "", message: "" });
+  const [formState, setFormState] = useState({ name: "", email: "", phone: "", reason: "", customReason: "", currency: "INR", budgetValue: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!formState.name || !formState.email || !formState.phone || !formState.reason || !formState.budgetValue || !formState.currency || !formState.message) return;
+    if (
+      !formState.name || 
+      !formState.email || 
+      !formState.phone || 
+      !formState.reason || 
+      (formState.reason === "Other" && !formState.customReason) || 
+      !formState.budgetValue || 
+      !formState.currency || 
+      !formState.message
+    ) return;
 
     setIsSubmitting(true);
     setErrorMessage(null);
     setSubmitSuccess(false);
+    
+    const finalReason = formState.reason === "Other" ? formState.customReason : formState.reason;
     
     try {
       const response = await fetch("/api/contact", {
@@ -32,7 +43,7 @@ export default function Contact() {
           name: formState.name,
           email: formState.email,
           phone: formState.phone,
-          service: formState.reason,
+          service: finalReason,
           budget: `${formState.budgetValue} ${formState.currency}`,
           message: formState.message,
           source: "contact-form"
@@ -43,7 +54,7 @@ export default function Contact() {
 
       if (response.ok && data.success) {
         setSubmitSuccess(true);
-        setFormState({ name: "", email: "", phone: "", reason: "", currency: "INR", budgetValue: "", message: "" });
+        setFormState({ name: "", email: "", phone: "", reason: "", customReason: "", currency: "INR", budgetValue: "", message: "" });
       } else {
         setErrorMessage(data.error || "Something went wrong. Please try again later.");
       }
@@ -205,10 +216,10 @@ export default function Contact() {
               
               <div className="w-full">
                 <h3 className="text-xl font-black text-white uppercase tracking-tight mb-2">
-                  Transmit Message
+                  Project Inquiry Form
                 </h3>
                 <p className="text-gray-400 text-xs font-mono mb-8">
-                  Fill out the parameters below to open a ticket.
+                  Fill out the details below to start a conversation.
                 </p>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -270,7 +281,7 @@ export default function Contact() {
                       <select
                         required
                         value={formState.reason}
-                        onChange={(e) => setFormState({ ...formState, reason: e.target.value })}
+                        onChange={(e) => setFormState({ ...formState, reason: e.target.value, customReason: e.target.value === "Other" ? "" : formState.customReason })}
                         className="w-full bg-black/35 border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/40 focus:shadow-[0_0_15px_rgba(0,212,255,0.05)] transition-all font-mono appearance-none cursor-pointer"
                         style={{
                           backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
@@ -284,10 +295,35 @@ export default function Contact() {
                         <option value="IT Operations / SLA Support" className="bg-[#0b0f17] text-slate-100 font-mono">IT Operations / SLA Support</option>
                         <option value="AI Integrations & Workflows" className="bg-[#0b0f17] text-slate-100 font-mono">AI Integrations & Workflows</option>
                         <option value="BrandNest Agency Partnership" className="bg-[#0b0f17] text-slate-100 font-mono">BrandNest Agency Partnership</option>
-                        <option value="General Consulting / Other" className="bg-[#0b0f17] text-slate-100 font-mono">General Consulting / Other</option>
+                        <option value="General Consulting" className="bg-[#0b0f17] text-slate-100 font-mono">General Consulting</option>
+                        <option value="Other" className="bg-[#0b0f17] text-slate-100 font-mono">Other (Please specify)</option>
                       </select>
                     </div>
                   </div>
+
+                  {/* Conditional custom reason input field */}
+                  <AnimatePresence>
+                    {formState.reason === "Other" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="flex flex-col gap-1.5 overflow-hidden"
+                      >
+                        <label className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-wider">
+                          Specify Other Purpose
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Please enter your specific purpose..."
+                          value={formState.customReason}
+                          onChange={(e) => setFormState({ ...formState, customReason: e.target.value })}
+                          className="w-full bg-black/35 border border-white/5 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500/40 focus:shadow-[0_0_15px_rgba(0,212,255,0.05)] transition-all font-mono"
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   {/* Row 3: Budget Details (Currency Dropdown + Amount Input) */}
                   <div className="flex flex-col gap-1.5">
@@ -332,7 +368,7 @@ export default function Contact() {
                   {/* Message Input */}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-wider">
-                      Transmission Body
+                      Your Message
                     </label>
                     <textarea
                       required
@@ -357,7 +393,7 @@ export default function Contact() {
                     {isSubmitting ? (
                       <>
                         <span className="w-4 h-4 rounded-full border-2 border-dark-bg border-t-transparent animate-spin" />
-                        Transmitting...
+                        Sending Inquiry...
                       </>
                     ) : (
                       <>
@@ -379,7 +415,7 @@ export default function Contact() {
                     className="mt-6 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono flex items-center gap-3 backdrop-blur-md"
                   >
                     <CheckCircle2 className="w-5 h-5 flex-shrink-0 animate-bounce" />
-                    <span>TRANSMISSION SECURED: Message sent successfully. Tushar will respond within 24 hours.</span>
+                    <span>INQUIRY SENT: Message sent successfully. Tushar will respond within 24 hours.</span>
                   </motion.div>
                 )}
                 {errorMessage && (
@@ -390,7 +426,7 @@ export default function Contact() {
                     className="mt-6 p-4 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-400 text-xs font-mono flex items-center gap-3 backdrop-blur-md"
                   >
                     <div className="w-5 h-5 rounded-full border border-rose-500 flex items-center justify-center font-bold flex-shrink-0">!</div>
-                    <span>TRANSMISSION FAILED: {errorMessage}</span>
+                    <span>INQUIRY FAILED: {errorMessage}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
