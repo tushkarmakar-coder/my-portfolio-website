@@ -1,0 +1,183 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700,900&f[]=satoshi@300,400,500,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0f1e;
+  --foreground: #f8fafc;
+  --accent-cyan: #00d4ff;
+  --accent-cyan-rgb: 0, 212, 255;
+  --accent-gold: #f5a623;
+  --accent-gold-rgb: 245, 166, 35;
+  
+  /* Fonts */
+  --font-display: 'Clash Display', 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Satoshi', 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Card and Panel Tokens */
+  --card-bg: rgba(12, 18, 38, 0.45);
+  --card-border: rgba(255, 255, 255, 0.04);
+}
+
+html, body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+/* Base Headings and Typo overrides */
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+@layer components {
+  .scene-container {
+    @apply min-h-screen flex flex-col justify-center py-20 relative;
+  }
+
+  .glass-panel {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    @apply rounded-2xl transition-all duration-500 ease-out;
+  }
+
+  .glass-panel:hover {
+    border-color: rgba(var(--accent-cyan-rgb), 0.25);
+    background: rgba(12, 18, 38, 0.65);
+    box-shadow: 0 15px 50px -15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(var(--accent-cyan-rgb), 0.05);
+  }
+
+  .cyan-text-gradient {
+    background: linear-gradient(135deg, #00d4ff 0%, #3b82f6 50%, #7e22ce 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gold-text-gradient {
+    background: linear-gradient(135deg, #f5a623 0%, #f59e0b 50%, #d97706 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .premium-button {
+    background: linear-gradient(135deg, #00d4ff 0%, #0284c7 100%);
+    color: #050811;
+    @apply px-8 py-3.5 rounded-full font-bold tracking-wide transition-all duration-500 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2;
+    box-shadow: 0 10px 25px -5px rgba(0, 212, 255, 0.35);
+  }
+
+  .premium-button:hover {
+    box-shadow: 0 15px 35px -10px rgba(0, 212, 255, 0.5), 0 0 25px rgba(0, 212, 255, 0.2);
+  }
+
+  .secondary-button {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    @apply px-8 py-3.5 rounded-full font-bold tracking-wide transition-all duration-500 backdrop-blur-md hover:bg-white/5 flex items-center justify-center gap-2;
+  }
+
+  .secondary-button:hover {
+    border-color: rgba(var(--accent-cyan-rgb), 0.4);
+    box-shadow: 0 0 20px rgba(var(--accent-cyan-rgb), 0.1);
+  }
+}
+
+@layer utilities {
+  .glow-cyan {
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.25);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 25px rgba(245, 166, 35, 0.2);
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0f1e;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.15);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.35);
+}
+
+/* Global Noise overlay container */
+.noise-bg {
+  position: relative;
+}
+
+.noise-bg::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Micro-animations */
+@keyframes pulse-cyan {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.05); opacity: 0.4; }
+}
+
+.pulse-glow-cyan {
+  animation: pulse-cyan 4s ease-in-out infinite;
+}
+
+@keyframes pulse-gold {
+  0%, 100% { transform: scale(1); opacity: 0.2; }
+  50% { transform: scale(1.05); opacity: 0.35; }
+}
+
+.pulse-glow-gold {
+  animation: pulse-gold 5s ease-in-out infinite;
+}
+
+/* Typing cursor animation */
+.typewriter-cursor::after {
+  content: "|";
+  animation: blink 0.8s infinite;
+  color: var(--accent-cyan);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Custom background mesh */
+.mesh-bg {
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(0, 212, 255, 0.08) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(245, 166, 35, 0.05) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(126, 34, 206, 0.05) 0px, transparent 50%);
+}
