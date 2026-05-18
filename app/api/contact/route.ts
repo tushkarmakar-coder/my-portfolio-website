@@ -26,8 +26,8 @@ export async function POST(req: Request) {
     // Determine subject — client leads get a dedicated subject
     const isClient = source === "client" || !!service;
     const subject = isClient
-      ? "New Client Lead from Portfolio"
-      : `New Portfolio Message from ${name}`;
+      ? `💼 [New Lead] ${name} - ${service} (${budget ? `Budget: ${budget}` : "No Budget Specified"})`
+      : `✉️ [General Inquiry] ${name} reached out!`;
 
     // Build email body for the owner (Tushar)
     const lines = [
