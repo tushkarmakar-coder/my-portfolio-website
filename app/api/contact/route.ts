@@ -54,7 +54,83 @@ export async function POST(req: Request) {
       from: fromEmail,
       to: [ownerRecipientEmail],
       subject,
-      text,
+      text, // Plain text fallback
+      html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #0a0f1e; color: #ffffff; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 30px auto; padding: 40px 30px; background-color: #0c1024; border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 16px; color: #d1d5db; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .header { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px; margin-bottom: 30px; }
+    .logo { font-size: 24px; font-weight: 900; letter-spacing: -0.05em; text-transform: uppercase; color: #ffffff; margin-bottom: 4px; }
+    .highlight { color: #00d4ff; }
+    h1 { font-size: 20px; font-weight: 800; text-transform: uppercase; margin-top: 0; color: #ffffff; letter-spacing: -0.02em; }
+    p { font-size: 14px; line-height: 1.6; color: #9ca3af; margin: 0 0 20px 0; }
+    .btn { display: inline-block; padding: 12px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; margin: 0 5px; }
+    .btn-primary { background: linear-gradient(135deg, #00d4ff 0%, #0284c7 100%); color: #0a0f1e !important; }
+    .btn-secondary { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #ffffff !important; }
+    .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 11px; font-family: monospace; color: #4b5563; line-height: 1.6; }
+    .meta-value { color: #00d4ff; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">Tushar <span class="highlight">Karmakar</span></div>
+      <div style="font-size: 10px; font-family: monospace; color: #6b7280; text-transform: uppercase; letter-spacing: 0.15em;">
+        PORTFOLIO INTAKE ALERT
+      </div>
+      <div style="font-size: 8px; font-family: monospace; color: #00d4ff; text-transform: uppercase; margin-top: 6px; letter-spacing: 0.2em; opacity: 0.8;">
+        [ NEW CLIENT LEAD CAPTURED ]
+      </div>
+    </div>
+    <h1 style="color: #00d4ff; text-align: center; margin-bottom: 10px;">🔥 New Business Inquiry!</h1>
+    <p style="text-align: center; color: #e5e7eb;">Congratulations! A fresh prospect inquiry has been captured through your portfolio website. Here are the client's briefing details:</p>
+    
+    <div style="background-color: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px; margin-bottom: 25px; font-size: 14px; color: #e5e7eb; line-height: 1.8;">
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: 12px;">
+        <strong>Prospect Name:</strong> <span style="color: #ffffff; font-weight: bold;">${name}</span>
+      </div>
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: 12px;">
+        <strong>Prospect Email:</strong> <a href="mailto:${email}" style="color: #00d4ff; text-decoration: none;">${email}</a>
+      </div>
+      ${phone ? `
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: 12px;">
+        <strong>Phone Number:</strong> <a href="tel:${phone}" style="color: #ffffff; text-decoration: none;">${phone}</a>
+      </div>` : ""}
+      ${service ? `
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: 12px;">
+        <strong>Requested Service:</strong> <span class="meta-value">${service}</span>
+      </div>` : ""}
+      ${budget ? `
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: 12px;">
+        <strong>Project Budget:</strong> <span style="color: #f5a623; font-weight: bold; font-family: monospace;">${budget}</span>
+      </div>` : ""}
+      <div style="margin-top: 15px;">
+        <strong style="display: block; margin-bottom: 6px; color: #ffffff;">Project Brief Message:</strong>
+        <div style="background-color: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.03); border-radius: 6px; padding: 12px; font-family: monospace; font-size: 13px; color: #9ca3af; white-space: pre-wrap; line-height: 1.6;">${message}</div>
+      </div>
+    </div>
+    
+    <p style="text-align: center; font-size: 12px; color: #6b7280; margin-top: 25px; margin-bottom: 15px;">
+      Quick Action: Choose a pathway below to respond to the prospect immediately.
+    </p>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+      <a href="mailto:${email}?subject=Re: Your Project Inquiry - Tushar Karmakar" class="btn btn-primary">✉️ Reply via Email</a>
+      ${phone ? `
+      <a href="https://wa.me/${phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn btn-secondary">💬 Chat on WhatsApp</a>` : ""}
+    </div>
+    
+    <div class="footer">
+      This is an automated operational alert generated by your Next.js application.<br>
+      &copy; ${new Date().getFullYear()} Tushar Karmakar Portfolio. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>
+      `,
     });
 
     let clientEmailData = null;
