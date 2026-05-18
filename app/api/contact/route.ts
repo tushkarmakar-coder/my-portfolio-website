@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     const text = lines.join("\n");
 
     // Allow customizing the sending address via .env, default to Resend onboarding address
-    const fromEmail = process.env.RESEND_FROM_EMAIL || "Portfolio Contact <onboarding@resend.dev>";
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "Tushar Karmakar Portfolio <onboarding@resend.dev>";
     const ownerRecipientEmail = portfolioData.personal.email; // tushkarmakar@gmail.com
 
     // 1. Send notification email to the portfolio owner (Tushar)
